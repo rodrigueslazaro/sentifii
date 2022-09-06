@@ -55,21 +55,11 @@ class Fundo(BaseModel):
         table_name = "fundos"
 
     id = TextField()
-    ativo = ForeignKeyField(Ativo, backref="fundos")
-    ffo_yield = FloatField()
-    div_yield = FloatField()
-    p_valorpatr = FloatField()
-    div_cota = FloatField()
-    valorpatr = FloatField()
-    ffo_cota = FloatField()
-    receita12 = FloatField()
-    venda12 = FloatField()
-    ffo12 = FloatField()
-    rend_distr12 = FloatField()
-    receita3 = FloatField()
-    venda3 = FloatField()
-    rend_distr3 = FloatField()
-    ffo3 = FloatField()
+    mandato = TextField()
+    segmento = TextField()
+    gestao = TextField()
+    ultimo_relatorio = TextField()
+    ultimo_info_trimestral = DateField()
 
 class Provento(BaseModel):
 
@@ -79,53 +69,10 @@ class Provento(BaseModel):
         table_name = "proventos"
 
     id = IntegerField()
-    fundo = ForeignKeyField(Fundo, backref="proventos")
+    id_ativo = ForeignKeyField(Ativo, backref="proventos")
     data_base = DateField()
     data_pagamento = DateField()
     valor = FloatField()
-
-class Cotacao(BaseModel):
-
-    # Cotação
-
-    class Meta:
-        table_name = "cotacoes"
-
-    id = DateField()
-    fundo = ForeignKeyField(Fundo, backref="cotacoes")
-    valor = FloatField()
-    maior_cota = FloatField()
-    menor_cota = FloatField()
-    vol_medio = FloatField()
-    num_cotas = IntegerField()
-    valor_mercado = FloatField()
-
-class Balanco(BaseModel):
-
-    # Balanco Patrimonial
-
-    class Meta:
-        table_name = "balancos"
-
-    id = DateField()
-    fundo = ForeignKeyField(Fundo, backref="balancos")
-    ativos = FloatField()
-    patrimonio_liq = FloatField()
-
-class Composicao(BaseModel):
-
-    # Composicao
-
-    class Meta:
-        table_name = "composicoes"
-
-    id = DateField()
-    fundo = ForeignKeyField(Fundo, backref="balancos")
-    cri = FloatField()
-    fii = FloatField()
-    acoes = FloatField()
-    caixa = FloatField()
-    imoveis = FloatField()
 
 class Caracteristica(BaseModel):
 
@@ -135,7 +82,58 @@ class Caracteristica(BaseModel):
         table_name = "caracteristicas"
 
     id = IntegerField()
-    caracteristica = TextField()
+    nome_caracteristica = TextField()
+
+class Cotacao(BaseModel):
+
+    # Cotação
+
+    class Meta:
+        table_name = "cotacoes"
+
+    id = DateField()
+    id_ativo = ForeignKeyField(Fundo, backref="cotacoes")
+    valor_abertura = FloatField()
+    valor_maximo = FloatField()
+    valor_minimo = FloatField()
+    valor_fechamento = FloatField()
+    valor_ajustado = FloatField()
+    volume = IntegerField()
+    divisao = FloatField()
+    
+class Composicao(BaseModel):
+
+    # Composicao
+
+    class Meta:
+        table_name = "composicoes"
+
+    id = IntegerField()
+    nome_composicao = TextField()
+
+class FundoComposicao(BaseModel):
+
+    # Fundo Composicao
+
+    class Meta:
+        table_name = "fundocomps"
+
+    id = DateField()
+    id_fundo = ForeignKeyField(Fundo, backref="fundocomps")
+    id_composicao = ForeignKeyField(Composicao, backref="fundocomps")
+    porcentagem = FloatField()
+   
+class FundoDetalhe(BaseModel):
+
+    # Fundo Detalhe
+
+    class Meta:
+        table_name = "fundodets"
+
+    id = TextField()
+    id_detalhe = ForeignKeyField(Fundo, backref="fundodets")
+    data = DateField()
+    valor = FloatField()
 
 class Imovel(BaseModel):
 
@@ -145,17 +143,15 @@ class Imovel(BaseModel):
         table_name = "imoveis"
 
     id = IntegerField()
-    fundo = ForeignKeyField(Fundo, backref="imoveis")
-    caracteristica = ForeignKeyField(Caracteristica, backref="imoveis")
-    nome = IntegerField()
-    unidades = IntegerField()
-    porcent_imoves = FloatField()
-    area = FloatField()
-    taxa_ocupacao = FloatField()
-    preco_metro = FloatField()
-    rate = FloatField()
-    vacancia = FloatField()
+    id_fundo = ForeignKeyField(Fundo, backref="imoveis")
+    id_caracteristica = ForeignKeyField(Caracteristica, backref="imoveis")
+    nome_imovel = IntegerField()
     endereco = TextField()
+    area = FloatField()
+    unidades = IntegerField()
+    taxa_ocupacao = FloatField()
+    inadimplencia = FloatField()
+    porcentagem_receitas = FloatField()
 
 DATABASE.connect()
 DATABASE.create_tables([Fundo, Ativo, Segmento, Provento, Cotacao,
