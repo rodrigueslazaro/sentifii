@@ -1,8 +1,8 @@
 from functools import reduce
 import re
 
-# ler o arquivo
-data = open('2022-10-10.json', 'r')
+# le os arquivos
+data = open('2022-10-17-MXRF11.json', 'r')
 
 # filtra o texto relevante do json
 text_ids = re.findall(r'"text": "(.*?)"', data.read())
@@ -24,9 +24,11 @@ subs = {
         '\\u2019':'’',
         '\\u00b2':'²',
         '\\u2022':'•',
+        '\\u00ba':'º',
         '\\u2026':'…',
         '\\ud83d\\udd34':'🔴',
         '\\ud83d\\udfe2':'🟢',
+        '\\u26aa\\ufe0f':'⚪',
         '\\ud83c\\udfe2':'🏢',
         '\\ud83d\\udcc9':'📉',
         '\\ud83d\\udcb0':'💰',
