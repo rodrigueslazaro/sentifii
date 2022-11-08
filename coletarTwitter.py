@@ -18,7 +18,7 @@ for coluna in arquivo:
     nomes.append(cod)
     files.append(open(f"{dia}-{cod}.json", "x"))
 
-bearer_token = "AAAAAAAAAAAAAAAAAAAAACahdQEAAAAArDJtUMLTAQ94qBb7Oocib%2FBOIX8%3DInNK6YOs5ya025nmNGWZNSsD6DdCPaOOivHh5Jnsva3NdiYG9a"
+bearer_token = "Insert Here"
 
 search_url = "https://api.twitter.com/2/tweets/search/recent"
 
